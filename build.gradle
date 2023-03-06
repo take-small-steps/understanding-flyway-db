@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.0.2'
     id 'io.spring.dependency-management' version '1.1.0'
+    id "org.flywaydb.flyway" version "7.15.0"
 }
 
 group = 'com.likelen'
@@ -21,7 +22,7 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter'
-    implementation 'org.flywaydb:flyway-core'
+    implementation 'org.flywaydb:flyway-core:7.15.0'
     implementation 'org.flywaydb:flyway-mysql:9.15.0'
     implementation 'com.mysql:mysql-connector-j:8.0.32'
 
@@ -30,6 +31,14 @@ dependencies {
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+ext.profile = (!project.hasProperty('profile') || !profile) ? 'local' : profile
+
+flyway {
+    url = 'jdbc:mysql://localhost:3307/cms?autoReconnect=True'
+    user = 'cms'
+    password = 'cms'
 }
 
 tasks.named('test') {

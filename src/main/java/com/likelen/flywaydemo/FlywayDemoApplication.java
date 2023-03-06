@@ -19,13 +19,11 @@ public class FlywayDemoApplication implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         MysqlDataSource d= new MysqlDataSource();
-        d.setPort(3306);
         d.setUrl("jdbc:mysql://localhost:3307/cms?autoReconnect=True");
         d.setUser("cms");
         d.setPassword("cms");
 
         Flyway flyway = Flyway.configure().dataSource(d)
-                .validateMigrationNaming(true)
                 .load();
         flyway.migrate();
     }
